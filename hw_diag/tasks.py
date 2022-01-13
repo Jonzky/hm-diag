@@ -32,7 +32,9 @@ def perform_hw_diagnostics(ship=False):  # noqa: C901
     get_ethernet_addresses(diagnostics)
     get_environment_var(diagnostics)
     get_serial_number(diagnostics)
-    detect_ecc(diagnostics)
+    #detect_ecc(diagnostics)
+
+    diagnostics['ECC'] = True
     public_keys = get_public_keys_and_ignore_errors()
 
     diagnostics['LOR'] = lora_module_test()

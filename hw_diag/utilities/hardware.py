@@ -250,23 +250,10 @@ def lora_module_test():
 
 
 def get_public_keys_and_ignore_errors():
-    error_msg = None
-    try:
-        public_keys = get_public_keys_rust()
-        if not public_keys:
-            public_keys = {
-                'name': error_msg,
-                'key': error_msg
-            }
-    except Exception as e:
-        logging.error(e)
-        public_keys = {
-            'name': error_msg,
-            'key': error_msg
-        }
-
-    return public_keys
-
+    return {
+        'name': "Hospot",
+        'key': "None"
+    }
 
 if __name__ == '__main__':
     logging.info('get_wifi_devices(): %s' % get_wifi_devices())
