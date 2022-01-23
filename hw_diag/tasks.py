@@ -5,11 +5,6 @@ import json
 from hm_pyhelper.hardware_definitions import variant_definitions
 from hm_pyhelper.miner_param import get_ethernet_addresses
 from hw_diag.utilities.blockchain import get_helium_blockchain_height
-from hw_diag.utilities.hardware import detect_ecc
-from hw_diag.utilities.hardware import get_serial_number
-from hw_diag.utilities.hardware import lora_module_test
-from hw_diag.utilities.hardware import set_diagnostics_bt_lte
-from hw_diag.utilities.hardware import get_public_keys_and_ignore_errors
 from hw_diag.utilities.miner import fetch_miner_data
 from hw_diag.utilities.shell import get_environment_var
 from hw_diag.utilities.gcs_shipper import upload_diagnostics
@@ -31,13 +26,18 @@ def perform_hw_diagnostics(ship=False):  # noqa: C901
 
     get_ethernet_addresses(diagnostics)
     get_environment_var(diagnostics)
-    get_serial_number(diagnostics)
+    # get_serial_number(diagnostics)
     #detect_ecc(diagnostics)
 
+    diagnostics["serial_number"] = "AWESOME"
     diagnostics['ECC'] = True
-    public_keys = get_public_keys_and_ignore_errors()
+    public_keys = {
+        'name': "Hotspot",
+        'key': "None"
+    }
 
-    diagnostics['LOR'] = lora_module_test()
+
+    diagnostics['LOR'] = False
     diagnostics['OK'] = public_keys['key']
     diagnostics['PK'] = public_keys['key']
     diagnostics['AN'] = public_keys['name']
@@ -79,7 +79,8 @@ def perform_hw_diagnostics(ship=False):  # noqa: C901
         diag_bch = int(diagnostics['BCH'])
         diagnostics['BSP'] = round(diag_mh / diag_bch * 100, 3)
 
-    set_diagnostics_bt_lte(diagnostics)
+    diagnostics['BT'] = False
+    diagnostics['LTE'] = False
 
     # Check if the region has been set
     try:
@@ -116,6 +117,6 @@ def perform_hw_diagnostics(ship=False):  # noqa: C901
     with open('diagnostic_data.json', 'w') as f:
         json.dump(diagnostics, f)
 
-    upload_diagnostics(diagnostics, ship)
+    # upload_diagnostics(diagnostics, ship)
 
     log.info('Diagnostics complete')

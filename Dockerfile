@@ -31,7 +31,8 @@ RUN \
     install_packages \
         wget \
         i2c-tools \
-        libdbus-1-3
+        libdbus-1-3 \
+        nano
 
 # @TODO: Re-enable health-check once Balena supports it fully.
 # HEALTHCHECK \

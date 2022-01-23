@@ -19,7 +19,6 @@ from hw_diag.diagnostics.lte_diagnostic import LteDiagnostic
 from hw_diag.diagnostics.lora_diagnostic import LoraDiagnostic
 from hw_diag.diagnostics.pf_diagnostic import PfDiagnostic
 from hw_diag.diagnostics.key_diagnostics import KeyDiagnostics
-from hw_diag.utilities.hardware import should_display_lte
 from hw_diag.tasks import perform_hw_diagnostics
 from hm_pyhelper.logger import get_logger
 
@@ -61,7 +60,7 @@ def get_diagnostics_json():
 @cache.cached(timeout=60)
 def get_diagnostics():
     diagnostics = read_diagnostics_file()
-    display_lte = should_display_lte(diagnostics)
+    display_lte = False
     now = datetime.utcnow()
 
     return render_template(
